@@ -1,0 +1,12 @@
+api: /api/user/login.htm
+formData:
+    blackBox: 'mockdatafromthirtypart=='
+    loginName: "loginName"
+    mobileType: '2'
+    vcode: '0000'
+    versionNumber: 1.0.1
+method: POST
+jsonBody:
+    name: value
+multiFiles:
+    name: liveImg.jpg

@@ -1,0 +1,1701 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "swagger docs",
+    "version": "v1.0",
+    "title": "star-kredit-api",
+    "termsOfService": "NO terms of service",
+    "license": {
+      "name": "The Apache License, Version 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "192.168.1.121:8080",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "user-controller",
+      "description": "用户登录注册验证api"
+    },
+    {
+      "name": "loan-apply-controller",
+      "description": "申请借款相关接口"
+    },
+    {
+      "name": "user-auth-controller",
+      "description": "用户授权相关"
+    },
+    {
+      "name": "loan-record-controller",
+      "description": "用户借款相关"
+    },
+    {
+      "name": "index-controller",
+      "description": "首页信息"
+    }
+  ],
+  "paths": {
+    "/api/auth/bankcard": {
+      "post": {
+        "tags": [
+          "user-auth-controller"
+        ],
+        "summary": "银行卡信息授权",
+        "description": "银行卡信息授权",
+        "operationId": "bankcardUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "gwBankcardAuthReq",
+            "description": "gwBankcardAuthReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GwBankcardAuthReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/auth/baseinfo": {
+      "post": {
+        "tags": [
+          "user-auth-controller"
+        ],
+        "summary": "基本信息授权",
+        "description": "基本信息授权",
+        "operationId": "baseinfoUsingPOST",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "education",
+            "in": "query",
+            "description": "education",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "liveAddr",
+            "in": "query",
+            "description": "liveAddr",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "marital",
+            "in": "query",
+            "description": "marital",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "salary",
+            "in": "query",
+            "description": "salary",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "workingImg",
+            "in": "formData",
+            "description": "workingImg",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/auth/check": {
+      "get": {
+        "tags": [
+          "user-auth-controller"
+        ],
+        "summary": "检查用户是否可以做某项授权",
+        "description": "获取用户授权数据",
+        "operationId": "checkUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse«Void»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/auth/contract": {
+      "post": {
+        "tags": [
+          "user-auth-controller"
+        ],
+        "summary": "联系人授权",
+        "description": "联系人授权",
+        "operationId": "contractUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "gwContractAuthReq",
+            "description": "gwContractAuthReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GwContractAuthReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/auth/ext-info": {
+      "post": {
+        "tags": [
+          "user-auth-controller"
+        ],
+        "summary": "用户扩展数据",
+        "description": "用户扩展数据",
+        "operationId": "extInfoUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "gwUserExtInfoReq",
+            "description": "gwUserExtInfoReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GwUserExtInfoReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/auth/identity": {
+      "post": {
+        "tags": [
+          "user-auth-controller"
+        ],
+        "summary": "身份信息授权",
+        "description": "身份信息授权",
+        "operationId": "identityUsingPOST",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "idNo",
+            "in": "query",
+            "description": "idNo",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "realName",
+            "in": "query",
+            "description": "realName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "identityImg",
+            "in": "formData",
+            "description": "identityImg",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "liveImg",
+            "in": "formData",
+            "description": "liveImg",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/auth/list": {
+      "get": {
+        "tags": [
+          "user-auth-controller"
+        ],
+        "summary": "用户授权列表",
+        "description": "获取用户授权数据",
+        "operationId": "listUsingGET_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse«UserAuthRes»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/auth/social": {
+      "post": {
+        "tags": [
+          "user-auth-controller"
+        ],
+        "summary": "社交信息授权",
+        "description": "社交信息授权",
+        "operationId": "socialUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "socialAuthReq",
+            "description": "socialAuthReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SocialAuthReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/auth/work": {
+      "post": {
+        "tags": [
+          "user-auth-controller"
+        ],
+        "summary": "工作信息授权",
+        "description": "工作信息授权",
+        "operationId": "workUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "gwWorkAuthReq",
+            "description": "gwWorkAuthReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GwWorkAuthReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/index/detail": {
+      "get": {
+        "tags": [
+          "index-controller"
+        ],
+        "summary": "详情页【首页】",
+        "description": "获取首页展示数据",
+        "operationId": "detailUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse«IndexRes»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/loan/apply": {
+      "post": {
+        "tags": [
+          "loan-apply-controller"
+        ],
+        "summary": "申请借款",
+        "description": "申请借款",
+        "operationId": "applyUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "gwLoanApplyReq",
+            "description": "gwLoanApplyReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GwLoanApplyReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse«Void»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/loan/product": {
+      "get": {
+        "tags": [
+          "loan-apply-controller"
+        ],
+        "summary": "产品列表",
+        "description": "产品列表",
+        "operationId": "productListUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse«ProductRes»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/loan/repay-plan": {
+      "get": {
+        "tags": [
+          "loan-apply-controller"
+        ],
+        "summary": "还款计划试算",
+        "description": "还款计划",
+        "operationId": "repayPlanUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "gwRepayPlanReq",
+            "description": "gwRepayPlanReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GwRepayPlanReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse«RepayPlanRes»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/record/list": {
+      "get": {
+        "tags": [
+          "loan-record-controller"
+        ],
+        "summary": "借款列表",
+        "description": "获取借款列表数据",
+        "operationId": "listUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "pageNum",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "pageSize",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse«List«UserLastLoanOrderResp»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user/login": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "登录",
+        "description": "登录",
+        "operationId": "loginUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "gwLoginReq",
+            "description": "gwLoginReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GwLoginReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse«LoginRes»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user/phone-exist": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "判断手机号是否存在【登录页】",
+        "description": "判断手机号是否存在",
+        "operationId": "isPhoneExistUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "phone",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user/register": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "用户注册",
+        "description": "短信注册",
+        "operationId": "registerUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "gwRegisterReq",
+            "description": "gwRegisterReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GwRegisterReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse«Void»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user/send-sms": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "发送登录或注册短信【登录页】",
+        "description": "发送短信",
+        "operationId": "sendSmsUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "用户登录后的授权Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "gwSmsReq",
+            "description": "gwSmsReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GwSmsReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResponse«Void»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "IndexRes": {
+      "type": "object",
+      "properties": {
+        "availableAmount": {
+          "type": "number",
+          "example": 1000000.0,
+          "description": "可用额度"
+        },
+        "lastLoan": {
+          "type": "object",
+          "description": "上一笔借款"
+        },
+        "productList": {
+          "type": "array",
+          "description": "产品列表",
+          "items": {
+            "$ref": "#/definitions/ProductDto"
+          }
+        }
+      }
+    },
+    "UserAuthTo": {
+      "type": "object",
+      "properties": {
+        "allowUpdateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "auditState": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "authCode": {
+          "type": "string"
+        },
+        "authTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "authTypeId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "order": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "state": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "GwRepayPlanReq": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "periods": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "productId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "BaseResponse«RepayPlanRes»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "00",
+          "description": "返回状态码"
+        },
+        "message": {
+          "type": "string",
+          "example": "成功",
+          "description": "返回说明"
+        },
+        "data": {
+          "description": "自定义返回数据",
+          "$ref": "#/definitions/RepayPlanRes"
+        }
+      }
+    },
+    "UserEmerContact": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "BaseResponse«IndexRes»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "00",
+          "description": "返回状态码"
+        },
+        "message": {
+          "type": "string",
+          "example": "成功",
+          "description": "返回说明"
+        },
+        "data": {
+          "description": "自定义返回数据",
+          "$ref": "#/definitions/IndexRes"
+        }
+      }
+    },
+    "GwBankcardAuthReq": {
+      "type": "object",
+      "required": [
+        "bankCard",
+        "bankCode",
+        "bankName"
+      ],
+      "properties": {
+        "bankCard": {
+          "type": "string",
+          "example": "12345678",
+          "description": "银行卡号"
+        },
+        "bankCode": {
+          "type": "string",
+          "example": "6222XXXXXXXX12345",
+          "description": "银行卡号"
+        },
+        "bankName": {
+          "type": "string",
+          "example": "xxx银行",
+          "description": "银行名称"
+        }
+      }
+    },
+    "UserAuthRes": {
+      "type": "object",
+      "properties": {
+        "apr": {
+          "type": "number"
+        },
+        "authList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserAuthTo"
+          }
+        }
+      }
+    },
+    "BaseResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "00",
+          "description": "返回状态码"
+        },
+        "message": {
+          "type": "string",
+          "example": "成功",
+          "description": "返回说明"
+        },
+        "data": {
+          "type": "object",
+          "description": "自定义返回数据"
+        }
+      }
+    },
+    "GwContractAuthReq": {
+      "type": "object",
+      "required": [
+        "userEmerContacts"
+      ],
+      "properties": {
+        "userEmerContacts": {
+          "type": "array",
+          "description": "联系人列表",
+          "items": {
+            "$ref": "#/definitions/UserEmerContact"
+          }
+        }
+      }
+    },
+    "GwWorkAuthReq": {
+      "type": "object",
+      "required": [
+        "companyAddr",
+        "companyName",
+        "companyPhone"
+      ],
+      "properties": {
+        "companyAddr": {
+          "type": "string",
+          "example": "xxx市xxx公司",
+          "description": "公司地址"
+        },
+        "companyName": {
+          "type": "string",
+          "example": "12345678",
+          "description": "公司名称"
+        },
+        "companyPhone": {
+          "type": "string",
+          "example": "12345678",
+          "description": "公司电话"
+        }
+      }
+    },
+    "UserContact": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    },
+    "BaseResponse«ProductRes»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "00",
+          "description": "返回状态码"
+        },
+        "message": {
+          "type": "string",
+          "example": "成功",
+          "description": "返回说明"
+        },
+        "data": {
+          "description": "自定义返回数据",
+          "$ref": "#/definitions/ProductRes"
+        }
+      }
+    },
+    "BaseResponse«List«UserLastLoanOrderResp»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "00",
+          "description": "返回状态码"
+        },
+        "message": {
+          "type": "string",
+          "example": "成功",
+          "description": "返回说明"
+        },
+        "data": {
+          "type": "array",
+          "description": "自定义返回数据",
+          "items": {
+            "$ref": "#/definitions/UserLastLoanOrderResp"
+          }
+        }
+      }
+    },
+    "ProductDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "periods": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "slogan": {
+          "type": "string"
+        },
+        "term": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "termType": {
+          "type": "string"
+        }
+      }
+    },
+    "ProductRes": {
+      "type": "object",
+      "properties": {
+        "loanProductDtos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProductDto"
+          }
+        }
+      }
+    },
+    "BaseResponse«UserAuthRes»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "00",
+          "description": "返回状态码"
+        },
+        "message": {
+          "type": "string",
+          "example": "成功",
+          "description": "返回说明"
+        },
+        "data": {
+          "description": "自定义返回数据",
+          "$ref": "#/definitions/UserAuthRes"
+        }
+      }
+    },
+    "UserLastLoanOrderResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "insuranceOrderId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "insuranceOrderStatus": {
+          "type": "string"
+        },
+        "insuranceOrderSuccessDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "insuranceRepaymentPlans": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RepaymentPlanDto"
+          }
+        },
+        "insuranceSettleDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "loanOrderId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "loanOrderStatus": {
+          "type": "string"
+        },
+        "loanOrderSuccessDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "loanRepaymentPlans": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RepaymentPlanDto"
+          }
+        },
+        "loanSettleDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "orderAmount": {
+          "type": "number"
+        },
+        "periods": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "productId": {
+          "type": "string"
+        },
+        "repaymentAmount": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "RepaymentPlanDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isOverdue": {
+          "type": "boolean"
+        },
+        "loanOrderId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "overdueFeeAmount": {
+          "type": "number"
+        },
+        "overdueManageFeeAmount": {
+          "type": "number"
+        },
+        "period": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "repaymentFeeAmount": {
+          "type": "number"
+        },
+        "repaymentIncomeAmount": {
+          "type": "number"
+        },
+        "repaymentInterestAmount": {
+          "type": "number"
+        },
+        "repaymentPlanTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "repaymentPrincipalAmount": {
+          "type": "number"
+        },
+        "repaymentTotalAmount": {
+          "type": "number"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "RepayPlanRes": {
+      "type": "object",
+      "properties": {
+        "repayPlanList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RepaymentPlanDto"
+          }
+        }
+      }
+    },
+    "GwSmsReq": {
+      "type": "object",
+      "required": [
+        "phone",
+        "type"
+      ],
+      "properties": {
+        "phone": {
+          "type": "string",
+          "example": "13912345678",
+          "description": "登录账户"
+        },
+        "type": {
+          "type": "string",
+          "example": "register",
+          "description": "发送类型"
+        }
+      }
+    },
+    "SocialAuthReq": {
+      "type": "object"
+    },
+    "BaseResponse«boolean»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "00",
+          "description": "返回状态码"
+        },
+        "message": {
+          "type": "string",
+          "example": "成功",
+          "description": "返回说明"
+        },
+        "data": {
+          "type": "boolean",
+          "example": false,
+          "description": "自定义返回数据"
+        }
+      }
+    },
+    "GwRegisterReq": {
+      "type": "object",
+      "required": [
+        "channelCode",
+        "invitationCode",
+        "loginName",
+        "registerAddr",
+        "registerClient",
+        "registerCoordinate",
+        "vcode"
+      ],
+      "properties": {
+        "appStoreCode": {
+          "type": "string",
+          "example": "default",
+          "description": "appstore渠道code"
+        },
+        "channelCode": {
+          "type": "string",
+          "example": "default",
+          "description": "渠道"
+        },
+        "invitationCode": {
+          "type": "string",
+          "example": "0000",
+          "description": "邀请code"
+        },
+        "loginName": {
+          "type": "string",
+          "example": "13912345678",
+          "description": "登录账户"
+        },
+        "registerAddr": {
+          "type": "string",
+          "example": "上海市黄浦区汉口路靠近上海外滩花园酒店",
+          "description": "注册地址"
+        },
+        "registerClient": {
+          "type": "string",
+          "example": "android",
+          "description": "客户端"
+        },
+        "registerCoordinate": {
+          "type": "string",
+          "example": "121.486251,31.23619",
+          "description": "注册经纬度"
+        },
+        "vcode": {
+          "type": "string",
+          "example": "0000",
+          "description": "验证码"
+        }
+      }
+    },
+    "BaseResponse«LoginRes»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "00",
+          "description": "返回状态码"
+        },
+        "message": {
+          "type": "string",
+          "example": "成功",
+          "description": "返回说明"
+        },
+        "data": {
+          "description": "自定义返回数据",
+          "$ref": "#/definitions/LoginRes"
+        }
+      }
+    },
+    "GwLoanApplyReq": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "periods": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "productId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "terminal": {
+          "type": "string"
+        }
+      }
+    },
+    "BaseResponse«Void»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "00",
+          "description": "返回状态码"
+        },
+        "message": {
+          "type": "string",
+          "example": "成功",
+          "description": "返回说明"
+        }
+      }
+    },
+    "AppInfo": {
+      "type": "object",
+      "properties": {
+        "appName": {
+          "type": "string"
+        },
+        "packageName": {
+          "type": "string"
+        }
+      }
+    },
+    "LoginRes": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string"
+        },
+        "refeshToken": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "GwLoginReq": {
+      "type": "object",
+      "required": [
+        "loginName",
+        "vcode"
+      ],
+      "properties": {
+        "loginName": {
+          "type": "string",
+          "example": "13912345678",
+          "description": "登录账户"
+        },
+        "vcode": {
+          "type": "string",
+          "example": "0000",
+          "description": "登录验证码"
+        }
+      }
+    },
+    "GwUserExtInfoReq": {
+      "type": "object",
+      "required": [
+        "appList",
+        "contactList"
+      ],
+      "properties": {
+        "appList": {
+          "type": "array",
+          "description": "app列表",
+          "items": {
+            "$ref": "#/definitions/AppInfo"
+          }
+        },
+        "contactList": {
+          "type": "array",
+          "description": "手机通讯录",
+          "items": {
+            "$ref": "#/definitions/UserContact"
+          }
+        }
+      }
+    }
+  }
+}
