@@ -14,5 +14,6 @@ public class RequestData {
     public Map<String, Object> queryParams;
     public Map<String, Object> pathParams;
     public Map<String, Object> multiFiles;
+    public Map<String, Object> cookies;
     public String jsonBody;
 }

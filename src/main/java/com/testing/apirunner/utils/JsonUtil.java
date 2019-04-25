@@ -12,8 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
@@ -163,24 +161,6 @@ public class JsonUtil {
 		} 
 	}
 
-    public static void writeJson(Object obj, HttpServletResponse resp){
-        try {
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("utf8");
-            PrintWriter pw=resp.getWriter();
-			String str;
-			if (!(obj instanceof String)) {
-				str = toString(obj);
-			} else {
-				str = obj.toString();
-			}
-            pw.print(str);
-            pw.flush();
-            pw.close();
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
 
 	public static void write(OutputStream outs,Object o){
 		try {

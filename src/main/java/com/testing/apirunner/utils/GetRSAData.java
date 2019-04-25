@@ -36,8 +36,5 @@ public class GetRSAData {
         } else {
             return null;
         }
-
     }
-
-
 }

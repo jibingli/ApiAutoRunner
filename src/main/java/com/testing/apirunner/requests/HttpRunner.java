@@ -58,14 +58,14 @@ public abstract class HttpRunner {
                 .prepareJson(json)
                 .prepareFiles(files)
                 .prepareHeaders(headers);
-        Response response = requestSpecification.config(this.config).urlEncodingEnabled(false).request(method.toUpperCase(), url);
-        String resp = response.asString().replaceAll("\\n","");
+        Response response = requestSpecification.config(this.config).urlEncodingEnabled(true).request(method.toUpperCase(), url);
+        String resp = response.asString().replaceAll("\\n", "").replaceAll("    ", "");
         if (resp.length() > 2000) {
             logger.debug(this.message + " | " + resp);
             resp = resp.substring(0, 1000);
         }
 
-        logger.info(this.message + " | " + response.getTime() + "ms | " + resp);
+        logger.info(this.message + " | time: " + response.getTime() + "ms | response: " + resp);
         //reset requestSpecification
         this.requestSpecification = given();
         return new HttpResponse(response);
@@ -78,7 +78,7 @@ public abstract class HttpRunner {
     private HttpRunner prepareJson(String json) {
         if (!Objects.isNull(json) && !json.equals("{}")) {
             requestSpecification.contentType(ContentType.JSON).body(json);
-            this.message += " | " + json;
+            this.message += " | json: " + json;
         }
         return this;
     }
@@ -92,7 +92,22 @@ public abstract class HttpRunner {
         ;
         if (!Objects.isNull(queryParams) && !queryParams.isEmpty()) {
             requestSpecification.queryParams(queryParams);
-            this.message += " | " + queryParams.toString();
+            this.message += " | query: " + queryParams.toString();
+        }
+        return this;
+
+    }
+
+    /**
+     * cookies params参数请求拼接
+     *
+     * @return
+     */
+    private HttpRunner prepareCookies(Map<String, Object> cookies) {
+        ;
+        if (!Objects.isNull(cookies) && !cookies.isEmpty()) {
+            requestSpecification.cookies(cookies);
+            this.message += " | cookies: " + cookies.toString();
         }
         return this;
 
@@ -106,7 +121,7 @@ public abstract class HttpRunner {
     private HttpRunner preparePath(Map<String, Object> pathParams) {
         if (!Objects.isNull(pathParams) && !pathParams.isEmpty()) {
             requestSpecification.pathParams(pathParams);
-            this.message += " | " + pathParams.toString();
+            this.message += " | path: " + pathParams.toString();
         }
         return this;
 
@@ -120,7 +135,7 @@ public abstract class HttpRunner {
     private HttpRunner prepareData(Map<String, Object> data) {
         if (!Objects.isNull(data) && !data.isEmpty()) {
             requestSpecification.formParams(data);
-            this.message += " | " + data.toString();
+            this.message += " | form: " + data.toString();
         }
         return this;
     }
@@ -147,7 +162,7 @@ public abstract class HttpRunner {
             for (Map.Entry<String, Object> entry : files.entrySet()) {
                 File media = RunnerUtils.getMedia((String) entry.getValue());
                 requestSpecification.multiPart(entry.getKey(), media);
-                this.message += " | " + entry.getKey();
+                this.message += " | files: " + entry.getKey();
             }
         }
         return this;
