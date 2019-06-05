@@ -22,7 +22,9 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.config.EncoderConfig.encoderConfig;
 
 public abstract class HttpRunner {
-    private RestAssuredConfig config = RestAssured.config().encoderConfig(encoderConfig().defaultContentCharset("UTF-8"));
+    private RestAssuredConfig config = RestAssured.config()
+            .encoderConfig(encoderConfig()
+                    .defaultContentCharset("UTF-8"));
     private static Logger logger = Logger.getLogger(HttpRunner.class);
     private RequestSpecification requestSpecification = given();
     private String message = "";
@@ -40,6 +42,10 @@ public abstract class HttpRunner {
         String hostname = getHostname();
         if (hostname == null) {
             throw new RuntimeException("Hostname must be provided!!");
+        }
+        String httpsProtocol = getHttpsProtocol();
+        if (httpsProtocol!=null&&(httpsProtocol.equals("SSL")||httpsProtocol.equals("TLS"))){
+            requestSpecification.relaxedHTTPSValidation(httpsProtocol);
         }
         RequestData requestData = template.creatRequest();
         String url = hostname + requestData.getApi();
@@ -60,9 +66,9 @@ public abstract class HttpRunner {
                 .prepareHeaders(headers);
         Response response = requestSpecification.config(this.config).urlEncodingEnabled(true).request(method.toUpperCase(), url);
         String resp = response.asString().replaceAll("\\n", "").replaceAll("    ", "");
-        if (resp.length() > 2000) {
+        if (resp.length() > 3000) {
             logger.debug(this.message + " | " + resp);
-            resp = resp.substring(0, 1000);
+            resp = resp.substring(0, 2000);
         }
 
         logger.info(this.message + " | time: " + response.getTime() + "ms | response: " + resp);
@@ -74,6 +80,9 @@ public abstract class HttpRunner {
     public abstract ArrayList<Filter> getFilter();
 
     public abstract String getHostname();
+    public String getHttpsProtocol(){
+        return null;
+    }
 
     private HttpRunner prepareJson(String json) {
         if (!Objects.isNull(json) && !json.equals("{}")) {
@@ -84,30 +93,16 @@ public abstract class HttpRunner {
     }
 
     /**
-     * query params参数请求拼接
+     * query params 参数请求拼接
      *
      * @return
      */
     private HttpRunner prepareParams(Map<String, Object> queryParams) {
-        ;
+
         if (!Objects.isNull(queryParams) && !queryParams.isEmpty()) {
+            queryParams.forEach((k, v) -> this.message += this.message.replaceFirst("{+" + k + "}", String.valueOf(v)));
             requestSpecification.queryParams(queryParams);
             this.message += " | query: " + queryParams.toString();
-        }
-        return this;
-
-    }
-
-    /**
-     * cookies params参数请求拼接
-     *
-     * @return
-     */
-    private HttpRunner prepareCookies(Map<String, Object> cookies) {
-        ;
-        if (!Objects.isNull(cookies) && !cookies.isEmpty()) {
-            requestSpecification.cookies(cookies);
-            this.message += " | cookies: " + cookies.toString();
         }
         return this;
 
@@ -124,7 +119,6 @@ public abstract class HttpRunner {
             this.message += " | path: " + pathParams.toString();
         }
         return this;
-
     }
 
     /**
