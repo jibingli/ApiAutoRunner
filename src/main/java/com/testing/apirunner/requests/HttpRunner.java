@@ -27,7 +27,7 @@ public abstract class HttpRunner {
                     .defaultContentCharset("UTF-8"));
     private static Logger logger = Logger.getLogger(HttpRunner.class);
     private RequestSpecification requestSpecification = given();
-    private String message = "";
+    private StringBuilder message = new StringBuilder("");
     private List<Filter> filterList;
 
     /**
@@ -43,9 +43,9 @@ public abstract class HttpRunner {
         if (hostname == null) {
             throw new RuntimeException("Hostname must be provided!!");
         }
-        String httpsProtocol = getHttpsProtocol();
-        if (httpsProtocol!=null&&(httpsProtocol.equals("SSL")||httpsProtocol.equals("TLS"))){
-            requestSpecification.relaxedHTTPSValidation(httpsProtocol);
+        RestAssuredConfig restConfig = this.getRestConfig();
+        if (!Objects.isNull(restConfig)) {
+            this.requestSpecification.config(restConfig);
         }
         RequestData requestData = template.creatRequest();
         String url = hostname + requestData.getApi();
@@ -57,14 +57,21 @@ public abstract class HttpRunner {
         String json = requestData.getJsonBody();
         Map<String, Object> pathParams = requestData.getPathParams();
 
-        this.message = method + " " + url;
+        this.message
+                .append(method)
+                .append(" ")
+                .append(url);
         this.preparePath(pathParams)
                 .prepareParams(queryParams)
                 .prepareData(data)
                 .prepareJson(json)
                 .prepareFiles(files)
                 .prepareHeaders(headers);
-        Response response = requestSpecification.config(this.config).urlEncodingEnabled(true).request(method.toUpperCase(), url);
+        Response response = this.requestSpecification
+                .relaxedHTTPSValidation()
+                .urlEncodingEnabled(true)
+                .when()
+                .request(method.toUpperCase(), url);
         String resp = response.asString().replaceAll("\\n", "").replaceAll("    ", "");
         if (resp.length() > 3000) {
             logger.debug(this.message + " | " + resp);
@@ -80,14 +87,15 @@ public abstract class HttpRunner {
     public abstract ArrayList<Filter> getFilter();
 
     public abstract String getHostname();
-    public String getHttpsProtocol(){
-        return null;
+
+    public RestAssuredConfig getRestConfig() {
+        return this.config;
     }
 
     private HttpRunner prepareJson(String json) {
         if (!Objects.isNull(json) && !json.equals("{}")) {
             requestSpecification.contentType(ContentType.JSON).body(json);
-            this.message += " | json: " + json;
+            this.message.append(" | json: ").append(json);
         }
         return this;
     }
@@ -100,9 +108,8 @@ public abstract class HttpRunner {
     private HttpRunner prepareParams(Map<String, Object> queryParams) {
 
         if (!Objects.isNull(queryParams) && !queryParams.isEmpty()) {
-            queryParams.forEach((k, v) -> this.message += this.message.replaceFirst("{+" + k + "}", String.valueOf(v)));
             requestSpecification.queryParams(queryParams);
-            this.message += " | query: " + queryParams.toString();
+            this.message.append(" | query: ").append(queryParams.toString());
         }
         return this;
 
@@ -115,8 +122,13 @@ public abstract class HttpRunner {
      */
     private HttpRunner preparePath(Map<String, Object> pathParams) {
         if (!Objects.isNull(pathParams) && !pathParams.isEmpty()) {
+            pathParams.forEach((k, v) -> {
+                String replaceStr = "{" + k + "}";
+                String ms = this.message.toString().replace(replaceStr,String.valueOf(v));
+                this.message = new StringBuilder(ms);
+            });
             requestSpecification.pathParams(pathParams);
-            this.message += " | path: " + pathParams.toString();
+            this.message.append(" | path: ").append(pathParams.toString());
         }
         return this;
     }
@@ -129,7 +141,7 @@ public abstract class HttpRunner {
     private HttpRunner prepareData(Map<String, Object> data) {
         if (!Objects.isNull(data) && !data.isEmpty()) {
             requestSpecification.formParams(data);
-            this.message += " | form: " + data.toString();
+            this.message.append(" | form: ").append(data.toString());
         }
         return this;
     }
@@ -156,7 +168,7 @@ public abstract class HttpRunner {
             for (Map.Entry<String, Object> entry : files.entrySet()) {
                 File media = RunnerUtils.getMedia((String) entry.getValue());
                 requestSpecification.multiPart(entry.getKey(), media);
-                this.message += " | files: " + entry.getKey();
+                this.message.append(" | files: ").append(entry.getKey());
             }
         }
         return this;
