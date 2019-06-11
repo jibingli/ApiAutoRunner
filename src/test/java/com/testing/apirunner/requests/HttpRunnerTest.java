@@ -1,10 +1,12 @@
 package com.testing.apirunner.requests;
 
+import com.alibaba.fastjson.JSONObject;
 import com.testing.apirunner.model.RequestData;
 import com.testing.apirunner.template.ApiTemplate;
 import com.testing.apirunner.template.RequestTemplate;
 import com.testing.apirunner.template.YamlTemplate;
 import com.testing.apirunner.utils.TimeHandler;
+import com.testing.apirunner.utils.UserUtils;
 import io.restassured.parsing.Parser;
 import io.restassured.specification.RequestSpecification;
 import org.testng.annotations.Test;
@@ -56,5 +58,28 @@ public class HttpRunnerTest {
         }});
         RequestTemplate template = new ApiTemplate(requestData);
         httpRunner.send(template).then().log().all();
+    }
+
+    @Test
+    public void testImageCode(){
+        RequestData requestData = new RequestData();
+        requestData.setHost("http://106.14.161.98:8180");
+        requestData.setApi("/api/user/pic-verify-image");
+        requestData.setMethod("get");
+        requestData.setQueryParams(new HashMap<String, Object>() {{
+            put("uniqueCode", "uniqueCode"+ UserUtils.getRandomSsn());
+        }});
+        ApiTemplate template = new ApiTemplate(requestData);
+        httpRunner.send(template);
+    }
+
+    @Test
+    public void testNormal(){
+        RequestData requestData = new RequestData();
+        requestData.setHost("http://106.14.161.98:8180");
+        requestData.setApi("/api/user/rsa-key");
+        requestData.setMethod("get");
+        ApiTemplate template = new ApiTemplate(requestData);
+        httpRunner.send(template);
     }
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 
 @Data
 public class RequestData {
+    public String host;
     public String api;
     public String method;
     public Map<String, Object> Headers;

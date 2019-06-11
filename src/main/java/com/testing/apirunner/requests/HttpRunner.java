@@ -27,7 +27,7 @@ public abstract class HttpRunner {
                     .defaultContentCharset("UTF-8"));
     private static Logger logger = Logger.getLogger(HttpRunner.class);
     private RequestSpecification requestSpecification = given();
-    private StringBuilder message = new StringBuilder("");
+    private StringBuilder message = new StringBuilder();
     private List<Filter> filterList;
 
     /**
@@ -38,8 +38,11 @@ public abstract class HttpRunner {
         if (this.filterList != null && !this.filterList.isEmpty()) {
             requestSpecification.filters(filterList);
         }
-
         String hostname = getHostname();
+        RequestData requestData = template.creatRequest();
+        if (requestData.getHost() != null) {
+            hostname = requestData.getHost();
+        }
         if (hostname == null) {
             throw new RuntimeException("Hostname must be provided!!");
         }
@@ -47,7 +50,6 @@ public abstract class HttpRunner {
         if (!Objects.isNull(restConfig)) {
             this.requestSpecification.config(restConfig);
         }
-        RequestData requestData = template.creatRequest();
         String url = hostname + requestData.getApi();
         String method = requestData.getMethod();
         Map<String, Object> headers = requestData.getHeaders();
@@ -73,14 +75,19 @@ public abstract class HttpRunner {
                 .when()
                 .request(method.toUpperCase(), url);
         String resp = response.asString().replaceAll("\\n", "").replaceAll("    ", "");
-        if (resp.length() > 3000) {
-            logger.debug(this.message + " | " + resp);
-            resp = resp.substring(0, 2000);
+        this.message = this.message
+                .append(" | time: ")
+                .append(response.getTime())
+                .append("ms");
+        if (response.getHeader("Content-Type") != null) {
+            logger.info(this.message.append(" | response: ").append(resp).toString());
+        } else {
+            logger.info(this.message.toString());
         }
 
-        logger.info(this.message + " | time: " + response.getTime() + "ms | response: " + resp);
         //reset requestSpecification
         this.requestSpecification = given();
+        this.message = new StringBuilder();
         return new HttpResponse(response);
     }
 
@@ -124,7 +131,7 @@ public abstract class HttpRunner {
         if (!Objects.isNull(pathParams) && !pathParams.isEmpty()) {
             pathParams.forEach((k, v) -> {
                 String replaceStr = "{" + k + "}";
-                String ms = this.message.toString().replace(replaceStr,String.valueOf(v));
+                String ms = this.message.toString().replace(replaceStr, String.valueOf(v));
                 this.message = new StringBuilder(ms);
             });
             requestSpecification.pathParams(pathParams);
