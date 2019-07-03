@@ -34,6 +34,7 @@ public abstract class HttpRunner {
      * 设置UTF-8编码，取消url encoding，发送HTTP请求
      */
     public HttpResponse send(RequestTemplate template) {
+        requestSpecification=given();
         this.filterList = getFilter();
         if (this.filterList != null && !this.filterList.isEmpty()) {
             requestSpecification.filters(filterList);
