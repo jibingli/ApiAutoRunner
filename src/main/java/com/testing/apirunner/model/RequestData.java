@@ -1,5 +1,6 @@
 package com.testing.apirunner.model;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
 import java.util.Map;
@@ -16,4 +17,22 @@ public class RequestData {
     public Map<String, Object> pathParams;
     public Map<String, Object> multiFiles;
     public String jsonBody;
+
+
+    public void setFormData(Map<String, Object> formData) {
+        this.formData = formData;
+    }
+
+
+    public void setQueryParams(Map<String, Object> queryParams) {
+        this.queryParams = queryParams;
+    }
+
+    public void setJsonBody(String jsonBody) {
+        this.jsonBody = jsonBody;
+    }
+
+    public void setJsonBody(JSONObject jsonObject) {
+        this.jsonBody = jsonObject.toJSONString();
+    }
 }
